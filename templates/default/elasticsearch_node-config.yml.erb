@@ -1,0 +1,26 @@
+---
+capacity: <%= node['cloudfoundry_elasticsearch_service']['node']['capacity'] %>
+plan: "free"
+local_db: sqlite3:<%= node['cloudfoundry_elasticsearch_service']['node']['base_dir'] %>/elasticsearch_node.db
+mbus: nats://<%= node['cloudfoundry_common']['nats_server']['user'] %>:<%= node['cloudfoundry_common']['nats_server']['password'] %>@<%= node['cloudfoundry_common']['nats_server']['host'] %>:<%= node['cloudfoundry_common']['nats_server']['port'] %>/
+index: <%= node['cloudfoundry_elasticsearch_service']['node']['index'] %>
+base_dir: <%= node['cloudfoundry_elasticsearch_service']['node']['instances_dir'] %>
+pid: <%= @pid_file %>
+max_memory: <%= node['cloudfoundry_elasticsearch_service']['node']['max_memory'] %>
+node_id: <%= "elasticsearch_node_#{node['cloudfoundry_elasticsearch_service']['node']['index']}" %>
+op_time_limit: <%= node['cloudfoundry_elasticsearch_service']['node']['op_time_limit'] %>
+supported_versions: <%= "['#{node['cloudfoundry_elasticsearch_service']['supported_versions'].keys.join("', '")}']"%>
+default_version: "<%= node['cloudfoundry_elasticsearch_service']['node']['default_version'] %>"
+elasticsearch_log_dir: /var/log/elasticsearch
+elasticsearch_path: <%= File.join(node['cloudfoundry_elasticsearch_service']['node']['elasticsearch_path'], "bin", "elasticsearch") %>
+elasticsearch_plugin_dir: <%= File.join(node['cloudfoundry_elasticsearch_service']['node']['elasticsearch_path'], "plugins") %>
+logging:
+  level: <%= node['cloudfoundry_elasticsearch_service']['node']['log_level'] %>
+  file: <%= @log_file %>
+
+port_range:
+  first: <%= node['cloudfoundry_elasticsearch_service']['node']['port_range']['first'] %>
+  last: <%= node['cloudfoundry_elasticsearch_service']['node']['port_range']['last'] %>
+# z_interval: 30
+# max_nats_payload: 1048576
+# fqdn_hosts: false
